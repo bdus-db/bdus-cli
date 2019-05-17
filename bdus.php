@@ -25,23 +25,25 @@ list($file, $action, $path2cfg, $path2dest) = $argv;
 
 function getAction($action = false){
   $actions = ['validate', 'create'];
-  if (in_array($action, $actions)){
+  if ($action && in_array($action, $actions)){
     return $action;
   }
-  $action = readline("Enter an action: [validate or create]: ");
+  $action = trim(readline("Enter an action: [validate or create]: "));
   if (!in_array($action, $actions)){
     return getAction();
+  } else {
+    return $action;
   }
 }
 function getPath2cfg($path2cfg = false){
   if(!$path2cfg){
-    $path2cfg = readline("Enter path to configuration directory: ");
+    $path2cfg = trim(readline("Enter path to configuration directory: "));
   }
   return $path2cfg;
 }
 function getPath2dest($path2dest = false){
   if(!$path2dest){
-    $path2dest = readline("Enter path to destination directory: ");
+    $path2dest = trim(readline("Enter path to destination directory: "));
   }
   return $path2dest;
 }
@@ -57,10 +59,13 @@ if ($action === 'create'){
 try {
 
   if ($action === 'validate'){
+    echo "\nValidating {$path2cfg}\n";
     \mngProject\Validate::all($path2cfg, true, true);
   } else if ($action === 'create'){
-
+    echo "\nCreating from {$path2cfg} to {$path2dest}\n";
     \mngProject\Create::all($path2cfg, $path2dest, true);
+  } else {
+    throw new Exception("Invalid action {$action}");
   }
 
   echo "\nAll done!\n\n";

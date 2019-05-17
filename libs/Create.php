@@ -153,6 +153,13 @@ CREATE TABLE {$app}__users (
   `settings`  TEXT
 );
 EOD;
+    $pwd = sha1('test');
+    $db['user'] = <<<EOD
+INSERT INTO {$app}__users
+  ( `name`, `email`, `password`, `privilege` )
+VALUES
+  ('Test User', 'test@bradypus.net', '${pwd}', 1);
+EOD;
     $db['vocabularies'] = <<<EOD
 CREATE TABLE {$app}__vocabularies (
   `id`   INTEGER PRIMARY KEY,
