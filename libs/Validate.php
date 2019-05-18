@@ -47,7 +47,7 @@ class Validate
 
 
 
-  public static function tables($path2cfg, $echo = false){
+  private static function tables($path2cfg, $echo = false){
     u::echo("Checking {$path2cfg}/tables.json", $echo);
 
     $tables = u::getJson("{$path2cfg}/tables.json");
@@ -285,7 +285,7 @@ class Validate
    * @return true           If OK
    * @throws Exception      If error
    */
-  public static function filesExist($path2cfg, $strict = false, $echo = false) {
+  private static function filesExist($path2cfg, $strict = false, $echo = false) {
     u::echo('Checking file existence', $echo);
     $c = [
       'app_data.json',
