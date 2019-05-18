@@ -16,6 +16,10 @@ class Create
     Validate::all($path2cfg, false);
     u::echo("  Config validation: ok", $echo);
 
+    $app = self::getApp($path2cfg);
+    $path2dest = rtrim($path2dest, '/') . '/' . $app;
+
+
     u::echo("Start create folders", $echo);
     self::createFolders($path2dest);
     u::echo("  Copy folders: ok", $echo);
