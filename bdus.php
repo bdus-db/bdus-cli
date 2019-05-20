@@ -53,7 +53,6 @@ $path2cfg = getPath2cfg($path2cfg);
 
 if ($action === 'create'){
   $path2dest = getPath2dest($path2dest);
-  R::setup( "sqlite:./{$path2dest}/db/bdus.sqlite" );
 }
 
 try {
@@ -72,4 +71,5 @@ try {
 
 } catch (\Exception $e) {
   var_dump($e->getMessage());
+  var_dump($e->__toString());
 }

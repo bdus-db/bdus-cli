@@ -190,7 +190,9 @@ EOD;
   private function copyCfg($path2cfg, $path2dest){
     $copy = [
       "app_data.json",
-      "tables.json"
+      "tables.json",
+      "files.json",
+      "geodata.json"
     ];
 
     $tables = u::getJson("{$path2cfg}/tables.json");
@@ -231,7 +233,8 @@ EOD;
       'files',
       'geodata',
       'templates',
-      'tmp'
+      'tmp',
+      'sessions'
       ] as $d) {
         @mkdir("{$path2dest}/{$d}");
         if (!is_dir($path2dest)){
@@ -306,6 +309,10 @@ EOD;
     @file_put_contents("{$path2dest}/welcome.html", "<h1>" . strtoupper(self::getApp($path2cfg)) . "</h1>\n\n<h3>A BraDypUS database</h3>");
 
     @touch("{$path2dest}/db/bdus.sqlite");
+    \R::setup( "sqlite:./{$path2dest}/db/bdus.sqlite" );
+
+    @touch("{$path2dest}/error.log");
+    @touch("{$path2dest}/history.log");
 
   }
 }
