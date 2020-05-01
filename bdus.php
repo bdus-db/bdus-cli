@@ -12,10 +12,8 @@ ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
 
 
 
-include('./libs/u.php');
 include('./libs/Validate.php');
 include('./libs/Create.php');
-include('./libs/rb.php');
 
 
 list($file, $action, $path2cfg, $path2dest) = $argv;

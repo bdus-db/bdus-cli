@@ -1,5 +1,7 @@
 <?php
 namespace mngProject;
+require_once 'u.php';
+require_once 'rb.php';
 
 
 
