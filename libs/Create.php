@@ -13,7 +13,7 @@ class Create
 
   public static function all($path2cfg, $path2dest, $echo = false){
     u::echo("Start config validation", $echo);
-    Validate::all($path2cfg, false);
+    Validate::all($path2cfg);
     u::echo("  Config validation: ok", $echo);
 
     $app = self::getApp($path2cfg);
@@ -55,6 +55,9 @@ class Create
 
     foreach ($tables['tables'] as $t) {
       $n = str_replace($app . '__', '', $t['name']);
+      if ($n === 'files'){
+        continue;
+      }
       $tb = u::getJson("{$path2cfg}/{$n}.json");
       $fields = [
         "id" => "id INTEGER PRIMARY KEY"
@@ -190,9 +193,7 @@ EOD;
   private function copyCfg($path2cfg, $path2dest){
     $copy = [
       "app_data.json",
-      "tables.json",
-      "files.json",
-      "geodata.json"
+      "tables.json"
     ];
 
     $tables = u::getJson("{$path2cfg}/tables.json");
@@ -202,10 +203,9 @@ EOD;
       array_push($copy, "{$n}.json");
     }
 
-
     foreach ($copy as $f) {
       @copy("{$path2cfg}/{$f}", "{$path2dest}/cfg/{$f}");
-      if (!file_exists("{$path2dest}/cfg/{$f}")){
+      if ($f !== 'files.json' && $f !== 'geodata.json' && !file_exists("{$path2dest}/cfg/{$f}")){
         throw new \Exception("Cannot copy to {$path2dest}/cfg/{$f}");
       }
     }

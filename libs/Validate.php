@@ -12,13 +12,12 @@ class Validate
   /**
    * Runs all validation
    * @param  string  $path2cfg path to configuration folder
-   * @param  boolean $strict if true optional tables will also be checked
    * @param  boolean $echo     if true success messages will be shown
    * @return true            if OK
    * @throws Exception       if error
    */
-  public static function all($path2cfg, $strict = false, $echo = false){
-    self::filesExist($path2cfg, $strict, $echo);
+  public static function all($path2cfg, $echo = false){
+    self::filesExist($path2cfg, $echo);
     self::appData($path2cfg, $echo);
     self::tables($path2cfg, $echo);
     return true;
@@ -32,6 +31,9 @@ class Validate
    * @return boolen           true if found, false if not
    */
   private static function tbHasfld($path2cfg, $tb, $fld){
+    if ($tb === 'files') {
+      return \in_array($fld, ['id', 'creator', 'ext', 'keywords', 'description', 'printable', 'filename']);
+    }
     if (!@self::$cache[$tb]){
       self::$cache[$tb] = u::getJson("{$path2cfg}/{$tb}.json");
     }
@@ -77,6 +79,9 @@ class Validate
     u::echo("Checking configuration for {$t}", $echo);
 
     $t = preg_replace('/([a-z]+)__/', '', $t);
+    if ($t === 'files' || $t === 'geodata'){
+      return;
+    }
     $table_array = u::getJson("{$path2cfg}/{$t}.json");
 
     foreach ($table_array as $e) {
@@ -280,20 +285,16 @@ class Validate
   /**
    * Checks if fundamental cfg files exist
    * @param  string $path2cfg path to cfg folder
-   * @param  boolean $strict if true optional tables will also be checked
    * @param  boolean $echo if true feedback will be echoed
    * @return true           If OK
    * @throws Exception      If error
    */
-  private static function filesExist($path2cfg, $strict = false, $echo = false) {
+  private static function filesExist($path2cfg, $echo = false) {
     u::echo('Checking file existence', $echo);
     $c = [
       'app_data.json',
       'tables.json'
     ];
-    if ($strict){
-      array_push($c, 'files.json', 'geodata.json');
-    }
     foreach ($c as $f) {
       if(!u::fileExists("{$path2cfg}/{$f}")){
         throw new \Exception("File {$path2cfg}/{$f} does not exist!");

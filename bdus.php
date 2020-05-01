@@ -59,7 +59,7 @@ try {
 
   if ($action === 'validate'){
     echo "\nValidating {$path2cfg}\n";
-    \mngProject\Validate::all($path2cfg, true, true);
+    \mngProject\Validate::all($path2cfg, true);
   } else if ($action === 'create'){
     echo "\nCreating from {$path2cfg} to {$path2dest}\n";
     \mngProject\Create::all($path2cfg, $path2dest, true);
