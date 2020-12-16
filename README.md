@@ -1,3 +1,8 @@
+# Deprecation note
+Since the newer version 4 implements natively the possibility of creation pf new applications this repository has been deprecated and will no longer be maintained or updated.
+
+---
+
 # bdus-cli
 A php command line utility to create new Bradypus web databases
 
